@@ -7,7 +7,7 @@ namespace WinFormsAluno
         #region Atributos
         List<Aluno> _alunos;
         List<Disciplina> _disciplinas;
-        List<Inscricao> _inscricoes;
+        List<Disciplina> _inscricoes;
         #endregion
 
         #region Método Construtor
@@ -16,7 +16,6 @@ namespace WinFormsAluno
             InitializeComponent();
             _alunos = Gravacao.LerAlunos();
             _disciplinas = Gravacao.LerDisciplinas();
-            _inscricoes = Gravacao.LerInscricao();
             InitListaAlunos();
             InitListaDisciplinas();
             InitListaInscricoes();
@@ -28,17 +27,19 @@ namespace WinFormsAluno
         {
             Aluno alunoSelecionado = (Aluno)listBoxAluno.SelectedItem;
             Disciplina discSelecionada = (Disciplina)listBoxDisciplina.SelectedItem;
-            Inscricao inscricao = new Inscricao(alunoSelecionado, discSelecionada);            
-            _inscricoes.Add(inscricao);
-            Gravacao.GravarInscricao(_inscricoes);
-            InitListaInscricoes();
+            if (!alunoSelecionado.Disciplinas.Any(x => x.NomeDisciplina == discSelecionada.NomeDisciplina))
+            {
+                alunoSelecionado.Disciplinas.Add(discSelecionada);
+            }
 
+            InitListaInscricoes();
         }
+
         private void btnRemoverInscricao_Click(object sender, EventArgs e)
         {
-            Inscricao inscricao = ((Inscricao)listBoxInscricao.SelectedItem);            
-            _inscricoes.Remove(inscricao);
-            Gravacao.GravarInscricao(_inscricoes);
+            Disciplina discInscSelecionada = (Disciplina)listBoxInscricao.SelectedItem;
+            Aluno alunoSelecionado = (Aluno)listBoxAluno.SelectedItem;
+            alunoSelecionado.Disciplinas.Remove(discInscSelecionada);
             InitListaInscricoes();
         }
         #endregion
@@ -58,10 +59,16 @@ namespace WinFormsAluno
         }
         public void InitListaInscricoes()
         {
+            Aluno alunoSelecionado = (Aluno)listBoxAluno.SelectedItem;
             listBoxInscricao.DataSource = null;
-            listBoxInscricao.DataSource = _inscricoes;
-            listBoxInscricao.DisplayMember = "NomeInscricao";
+            listBoxInscricao.DataSource = alunoSelecionado.Disciplinas;
+            listBoxInscricao.DisplayMember = "NomeDisciplina";
         }
         #endregion
+
+        private void listBoxAluno_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            InitListaInscricoes();
+        }
     }
 }

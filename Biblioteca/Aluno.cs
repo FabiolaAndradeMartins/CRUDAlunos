@@ -20,5 +20,7 @@
         {
             return $"{Id} - {Nome} {Apelido}";
         }
+
+        public List<Disciplina> Disciplinas { get; set; } = new List<Disciplina>();
     }
 }

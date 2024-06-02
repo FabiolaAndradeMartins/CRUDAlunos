@@ -2,61 +2,6 @@
 {
     public class Gravacao
     {
-        public static void GravarInscricao(List<Inscricao> inscricoes)
-        {
-            string ficheiro = "ListaInscrições.txt";
-
-            StreamWriter sw = new StreamWriter(ficheiro);
-
-            if (!File.Exists(ficheiro))
-            {
-                sw = File.CreateText(ficheiro);
-            }
-
-            foreach (var inscricao in inscricoes)
-            {
-                string linha = $"{inscricao.IdAluno};{inscricao.NomeAluno};{inscricao.IdDisciplina};{inscricao.NomeDisciplina}";
-                sw.WriteLine(linha);
-            }
-
-            sw.Close();
-        }
-
-        public static List<Inscricao> LerInscricao()
-        {
-            List<Inscricao> lista = new List<Inscricao>();
-            string ficheiro = "ListaInscricao.txt";
-
-            StreamReader sr;
-
-            if (File.Exists(ficheiro))
-            {
-                sr = File.OpenText(ficheiro);
-
-                string linha = "";
-
-                while ((linha = sr.ReadLine()) != null)
-                {
-                    string[] campos = new string[2];
-
-                    campos = linha.Split(';');
-
-                    Inscricao inscricao = new Inscricao()
-                    { 
-                        IdAluno = int.Parse(campos[0]),
-                        IdDisciplina = int.Parse(campos[1])
-                    };
-
-                    lista.Add(inscricao);
-                }
-
-                sr.Close();
-            }
-
-
-            return lista;
-        }
-
         public static void GravarDisciplinas(List<Disciplina> disciplinas)
         {
             string ficheiro = "ListaDisciplinas.txt";

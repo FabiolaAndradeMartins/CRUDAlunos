@@ -47,6 +47,7 @@
             listBoxAluno.Name = "listBoxAluno";
             listBoxAluno.Size = new Size(360, 169);
             listBoxAluno.TabIndex = 0;
+            listBoxAluno.SelectedIndexChanged += listBoxAluno_SelectedIndexChanged;
             // 
             // listBoxDisciplina
             // 
@@ -139,7 +140,7 @@
             Controls.Add(listBoxDisciplina);
             Controls.Add(listBoxAluno);
             Name = "FormInscricao";
-            Text = "FormInscicao";
+            Text = "Formulário de Inscrição";
             ResumeLayout(false);
             PerformLayout();
         }
